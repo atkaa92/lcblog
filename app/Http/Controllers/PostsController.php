@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-
+use Carbon\Carbon;
 class PostsController extends Controller
 {
     public function __construct()
@@ -14,9 +14,9 @@ class PostsController extends Controller
     
     public function index()
     {
-        $posts = Post::latest()->get();
-        // $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        $posts = Post::latest()->filter(request(['month', 'year']))->get();
+        
+        return view('posts.index', compact('posts', 'archives'));
     }
 
     public function show(Post $post)
